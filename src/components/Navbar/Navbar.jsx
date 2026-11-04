@@ -2,8 +2,10 @@ import { useId, useRef, useState } from "react";
 import Marca from "../Marca/Marca.jsx";
 import MenuMovil from "../MenuMovil/MenuMovil.jsx";
 import SelectorIdioma from "../SelectorIdioma/SelectorIdioma.jsx";
-import { interfaz } from "../../data/interfaz.js";
+import { useTextos } from "../../context/TextosContext.jsx";
+import { useSesion } from "../../context/SesionContext.jsx";
 import "./Navbar.css";
+
 export default function Navbar({
   nombre,
   tipo,
@@ -12,11 +14,36 @@ export default function Navbar({
   destino,
   etiqueta,
   onCuenta,
+  onAbrirAccesibilidad,
+  botonAccesibilidadRef,
 }) {
   const [abierto, setAbierto] = useState(false);
   const boton = useRef(null);
   const id = useId();
-  const t = interfaz[idioma];
+  const { textos } = useTextos();
+  const { usuario, cerrarSesion } = useSesion();
+
+  const tNavbar = textos?.navbar || {};
+  const tMenuMovil = textos?.menuMovil || {};
+  const tA11y = textos?.accesibilidad || {};
+  const t = { ...textos, ...tNavbar };
+
+  const textoCerrarSesion =
+    tNavbar.cerrarSesion ||
+    t.cerrarSesion ||
+    (idioma === "en" ? "Log out" : "Cerrar sesión");
+
+  const textosMenu = {
+    abrirMenu: tMenuMovil.abrirMenu || t.abrirMenu,
+    cerrarMenu: tMenuMovil.cerrarMenu || t.cerrarMenu,
+  };
+
+  const etiquetaIdioma =
+    typeof textos?.idioma === "string" ? textos.idioma : t.idioma || "Idioma";
+
+  const textoAccesibilidad =
+    tA11y.boton || t.accesibilidad || (idioma === "en" ? "Accessibility" : "Accesibilidad");
+
   return (
     <header
       className="cabecera-home"
@@ -29,23 +56,41 @@ export default function Navbar({
     >
       <div className="ancho-home fila-cabecera">
         <Marca nombre={nombre} tipo={tipo} />
-        <button className="ingreso-movil" onClick={() => onCuenta("ingresar")}>
-          {t.ingresar}
-        </button>
+
+        {usuario ? (
+          <button
+            type="button"
+            className="ingreso-movil"
+            onClick={cerrarSesion}
+            title={usuario.nombre}
+          >
+            {textoCerrarSesion}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="ingreso-movil"
+            onClick={() => onCuenta("ingresar")}
+          >
+            {t.ingresar}
+          </button>
+        )}
+
         <MenuMovil
           abierto={abierto}
           onAlternar={() => setAbierto(!abierto)}
           menuId={id}
           botonRef={boton}
-          textos={t}
+          textos={textosMenu}
         />
+
         <nav
           id={id}
           className={`menu-home ${abierto ? "abierto" : ""}`}
           aria-label={t.navegacion}
         >
           <a
-            href="#contenido"
+            href={destino?.startsWith("#") ? "#contenido" : "/"}
             aria-current="page"
             onClick={() => setAbierto(false)}
           >
@@ -64,23 +109,77 @@ export default function Navbar({
                 {t.buscar}
               </a>
             )}
+
+            {onAbrirAccesibilidad && (
+              <button
+                type="button"
+                ref={botonAccesibilidadRef}
+                className="boton-accesibilidad"
+                aria-label={textoAccesibilidad}
+                onClick={() => {
+                  setAbierto(false);
+                  onAbrirAccesibilidad();
+                }}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="4" r="2" />
+                  <path d="M12 7c-3 0-5 2-5 5h3v7h4v-7h3c0-3-2-5-5-5z" />
+                </svg>
+              </button>
+            )}
+
             <SelectorIdioma
               idioma={idioma}
               onCambiar={onCambiarIdioma}
-              etiqueta={t.idioma}
+              etiqueta={etiquetaIdioma}
             />
-            <button
-              className="ingresar-home"
-              onClick={() => onCuenta("ingresar")}
-            >
-              {t.ingresar}
-            </button>
-            <button
-              className="boton-home primario"
-              onClick={() => onCuenta("registro")}
-            >
-              {t.registro}
-            </button>
+
+            {usuario ? (
+              <div className="bloque-sesion-nav">
+                <span className="usuario-sesion-nombre" title={usuario.correo}>
+                  {usuario.nombre}
+                </span>
+                <button
+                  type="button"
+                  className="boton-home secundario boton-cerrar-sesion"
+                  onClick={() => {
+                    setAbierto(false);
+                    cerrarSesion();
+                  }}
+                >
+                  {textoCerrarSesion}
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="ingresar-home"
+                  onClick={() => {
+                    setAbierto(false);
+                    onCuenta("ingresar");
+                  }}
+                >
+                  {t.ingresar}
+                </button>
+                <button
+                  type="button"
+                  className="boton-home primario"
+                  onClick={() => {
+                    setAbierto(false);
+                    onCuenta("registro");
+                  }}
+                >
+                  {t.registro}
+                </button>
+              </>
+            )}
           </div>
         </nav>
       </div>

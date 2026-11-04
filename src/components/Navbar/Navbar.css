@@ -165,3 +165,45 @@
     color: #fff;
   }
 }
+
+.bloque-sesion-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usuario-sesion-nombre {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--tinta);
+  background: rgba(113, 59, 250, 0.1);
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1px solid rgba(113, 59, 250, 0.25);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.boton-cerrar-sesion {
+  min-height: 36px;
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+@media (max-width: 640px) {
+  .bloque-sesion-nav {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .usuario-sesion-nombre {
+    max-width: 100%;
+    text-align: center;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
