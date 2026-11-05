@@ -32,6 +32,12 @@
   font-size: 14px;
   color: #504765;
 }
+.rango-numeros {
+  font-size: 12px;
+  font-weight: 600;
+  color: #504765;
+  margin-top: -8px;
+}
 .etiqueta-mundo {
   position: absolute;
   top: 24px;
