@@ -1,0 +1,207 @@
+/* Botón Disparador de Accesibilidad */
+.boton-accesibilidad {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--borde);
+  background: var(--superficie);
+  color: var(--tinta);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--borde);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+  flex-shrink: 0;
+}
+
+.boton-accesibilidad:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 var(--borde);
+}
+
+.boton-accesibilidad svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Modal / Diálogo de Accesibilidad */
+.dialogo-accesibilidad {
+  border: 3px solid var(--borde);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--borde);
+  background: var(--superficie);
+  color: var(--tinta);
+  padding: 24px;
+  max-width: 480px;
+  width: calc(100% - 32px);
+  margin: auto;
+}
+
+.dialogo-accesibilidad::backdrop {
+  background: rgba(25, 17, 48, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.cabecera-modal-a11y {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(25, 17, 48, 0.1);
+  margin-bottom: 20px;
+}
+
+.cabecera-modal-a11y h2 {
+  font: 800 22px var(--fuente-titulos);
+  margin: 0;
+}
+
+.boton-cerrar-a11y {
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--tinta);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background 140ms ease;
+}
+
+.boton-cerrar-a11y:hover {
+  background: rgba(25, 17, 48, 0.08);
+}
+
+.cuerpo-modal-a11y {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 1. Tamaño del texto */
+.seccion-tamano-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seccion-tamano-texto b {
+  font-size: 14px;
+}
+
+.chips-tamano-a11y {
+  display: flex;
+  gap: 8px;
+}
+
+.chip-tamano {
+  flex: 1;
+  min-height: 40px;
+  padding: 6px 12px;
+  border: 2px solid var(--borde);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--tinta);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+
+.chip-tamano:hover {
+  background: rgba(113, 59, 250, 0.08);
+}
+
+.chip-tamano.activo {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--sobre-acento);
+}
+
+/* Opciones con switch */
+.opcion-a11y {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.opcion-a11y label {
+  cursor: pointer;
+}
+
+.opcion-a11y b {
+  font-size: 14px;
+  display: block;
+}
+
+.opcion-a11y p {
+  font-size: 12px;
+  color: var(--suave);
+  margin-top: 2px;
+}
+
+/* Toggle Switch */
+.switch-a11y {
+  width: 44px;
+  height: 24px;
+  border-radius: 99px;
+  border: 2px solid var(--borde);
+  background: var(--superficie);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 160ms, border-color 160ms;
+  cursor: pointer;
+  padding: 0;
+}
+
+.switch-a11y::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--suave);
+  transition: transform 160ms, background 160ms;
+}
+
+.switch-a11y.activo {
+  background: var(--acento);
+  border-color: var(--acento);
+}
+
+.switch-a11y.activo::after {
+  transform: translateX(20px);
+  background: var(--sobre-acento);
+}
+
+/* Declaración */
+.declaracion-a11y-bloque {
+  padding-top: 8px;
+  border-top: 1px dashed rgba(25, 17, 48, 0.15);
+}
+
+.declaracion-a11y-bloque a {
+  font-size: 13px;
+}
+
+/* Pie de acciones */
+.acciones-a11y-pie {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+}
+
+.boton-restablecer-a11y {
+  min-height: 40px;
+  padding: 8px 18px;
+  font-size: 13px;
+}
+

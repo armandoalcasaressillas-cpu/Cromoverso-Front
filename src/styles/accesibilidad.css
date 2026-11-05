@@ -1,0 +1,49 @@
+/* Estilos globales de Accesibilidad */
+
+.alto-contraste {
+  --fondo: #000;
+  --superficie: #111;
+  --tinta: #fff;
+  --suave: #ccc;
+  --acento: #ff0;
+  --sobre-acento: #000;
+  --borde: #fff;
+}
+
+.alto-contraste .cromo,
+.alto-contraste .tarjeta-mundo,
+.alto-contraste .catalogo-sidebar-bloque,
+.alto-contraste .catalogo-encabezado,
+.alto-contraste .dialogo-accesibilidad {
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: 4px 4px 0 #fff !important;
+}
+
+.alto-contraste a,
+.alto-contraste b,
+.alto-contraste h1,
+.alto-contraste h2,
+.alto-contraste h3 {
+  color: #fff !important;
+}
+
+.sin-movimiento *,
+.sin-movimiento *::before,
+.sin-movimiento *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+.subrayar-enlaces a {
+  text-decoration: underline !important;
+}
+
+.lectura-facil,
+.lectura-facil * {
+  font-family: Arial, Helvetica, sans-serif !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}
+
