@@ -96,12 +96,6 @@ export default function TarjetaCromo({
     >
       <span className="cromo-numero">{numeroFormateado}</span>
 
-      {/* Badge holográfica si cromo.holografico === true */}
-      {cromo.holografico && (
-        <span className="cromo-badge-holografica">
-          {en ? "HOLOGRAPHIC" : "HOLOGRÁFICA"}
-        </span>
-      )}
 
       <span
         className="cromo-rareza"

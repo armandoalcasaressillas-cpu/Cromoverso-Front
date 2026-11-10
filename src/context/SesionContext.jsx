@@ -12,7 +12,7 @@ export function SesionProvider({ children }) {
     if (consultandoRef.current) return;
     consultandoRef.current = true;
     try {
-      const res = await consultar("/sesion");
+      const res = await consultar("/sesion", { credentials: "include" });
       if (res?.usuario) {
         setUsuario(res.usuario);
       } else {
@@ -33,7 +33,7 @@ export function SesionProvider({ children }) {
 
   async function cerrarSesion() {
     try {
-      await consultar("/sesion", { method: "DELETE" });
+      await consultar("/sesion", { method: "DELETE", credentials: "include" });
     } catch {
       // En caso de fallo de red en DELETE, igualmente se limpia el estado local
     }
