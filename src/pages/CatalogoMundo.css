@@ -2,7 +2,7 @@
   padding: 24px 0 64px;
 }
 
-/* Breadcrumb */
+
 .catalogo-breadcrumb {
   display: flex;
   align-items: center;
@@ -35,7 +35,6 @@
   color: var(--suave);
 }
 
-/* Encabezado morado/acento */
 .catalogo-hero-encabezado {
   background: var(--acento);
   color: var(--sobre-acento);
@@ -59,7 +58,7 @@
   margin: 0;
 }
 
-/* Layout de dos columnas: Sidebar + Contenido principal */
+
 .catalogo-dos-columnas {
   display: grid;
   grid-template-columns: 240px 1fr;
@@ -67,7 +66,7 @@
   align-items: start;
 }
 
-/* Sidebar izquierdo */
+
 .catalogo-sidebar {
   display: flex;
   flex-direction: column;
@@ -90,7 +89,7 @@
   color: var(--tinta);
 }
 
-/* Listas del sidebar */
+
 .lista-sidebar-mundos,
 .lista-sidebar-filtros {
   list-style: none;
@@ -101,7 +100,7 @@
   gap: 6px;
 }
 
-/* Fila de mundo */
+
 .fila-sidebar-mundo {
   width: 100%;
   display: flex;
@@ -285,8 +284,7 @@
   box-shadow: 3px 3px 0 var(--borde) !important;
 }
 
-/* Ilustración y textos con proporciones fijas para que todas las
-   cartas tengan exactamente la misma altura */
+
 .grid-catalogo-cromos .cromo .retrato-heroe {
   aspect-ratio: 5 / 6;
   height: auto;
@@ -305,7 +303,7 @@
   box-shadow: 5px 5px 0 var(--borde) !important;
 }
 
-/* Esqueletos de carga */
+
 .cromo-esqueleto {
   background: var(--superficie);
   border: 2px solid rgba(25, 17, 48, 0.15);
@@ -404,4 +402,19 @@
   .catalogo-hero-encabezado h1 {
     font-size: 26px;
   }
+}
+.catalogo-hero-encabezado {
+  background: none;
+  color: var(--tinta);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.catalogo-hero-encabezado h1 {
+  color: var(--tinta);
+}
+.catalogo-hero-encabezado p {
+  color: var(--suave);
+  opacity: 1;
 }

@@ -152,7 +152,7 @@ select {
 }
 @media (max-width: 640px) {
   .ancho-home {
-    width: calc(100% - 40px);
+    width: calc(100% - 32px);
   }
 }
 @media (max-width: 640px) {
@@ -162,7 +162,7 @@ select {
 }
 @media (max-width: 640px) {
   .titulo-seccion h2 {
-    font-size: 21px;
+    font-size: 20px;
   }
 }
 @media (max-width: 640px) {
@@ -197,6 +197,6 @@ select {
 }
 @media (max-width: 640px) {
   .cromoverso .ancho-home {
-    width: calc(100% - 40px);
+    width: calc(100% - 32px);
   }
 }

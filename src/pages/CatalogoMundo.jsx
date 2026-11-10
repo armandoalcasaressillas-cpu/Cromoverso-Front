@@ -9,6 +9,7 @@ import { usePreferencias } from "../context/PreferenciasContext.jsx";
 import { useTextos } from "../context/TextosContext.jsx";
 import { useRecurso } from "../hooks/useRecurso.js";
 import { useDetalle } from "../hooks/useDetalle.js";
+import { obtenerTextoSeguro } from "../utils/textos.js";
 import "./CatalogoMundo.css";
 
 export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
@@ -168,6 +169,40 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
   const tAlbum = textos?.paginas?.albumMundo || {};
   const tEstados = textos?.estados || {};
 
+  const textoNoEncontrado = obtenerTextoSeguro(
+    tEstados.noEncontrado,
+    en ? "World not found" : "Mundo no encontrado",
+  );
+  const detalleNoEncontrado =
+    (typeof tEstados.noEncontrado === "object" &&
+      tEstados.noEncontrado?.texto) ||
+    (en
+      ? "The world you requested does not exist or has been removed."
+      : "El mundo solicitado no existe o no está disponible.");
+  const textoVolverInicio = obtenerTextoSeguro(
+    tEstados.noEncontrado?.botones?.irAlInicio || tEstados.volverInicio,
+    en ? "Back to home" : "Volver al inicio",
+  );
+  const textoError = obtenerTextoSeguro(
+    tEstados.error,
+    en ? "An error occurred." : "Ha ocurrido un error.",
+  );
+  const detalleError =
+    (typeof tEstados.error === "object" && tEstados.error?.texto) ||
+    textoError;
+  const textoReintentar = obtenerTextoSeguro(
+    tEstados.error?.botones?.reintentar || tEstados.reintentar,
+    en ? "Retry" : "Reintentar",
+  );
+  const textoVacio = obtenerTextoSeguro(
+    tAlbum.vacio || tEstados.vacio,
+    en ? "No cards match that filter" : "No hay cromos con ese filtro",
+  );
+  const textoLimpiarFiltros = obtenerTextoSeguro(
+    tAlbum.vacio?.botones?.limpiar || tAlbum.limpiarFiltros,
+    en ? "Clear filters" : "Limpiar filtros",
+  );
+
   // Manejo de error 404 (mundo no encontrado)
   const es404 =
     errorMundo &&
@@ -186,15 +221,11 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
         onCuenta={abrirCuenta}
       >
         <div className="ancho-home catalogo-no-encontrado" role="alert">
-          <h2>{tEstados.noEncontrado || (en ? "World not found" : "Mundo no encontrado")}</h2>
-          <p>
-            {en
-              ? "The world you requested does not exist or has been removed."
-              : "El mundo solicitado no existe o no está disponible."}
-          </p>
+          <h2>{textoNoEncontrado}</h2>
+          <p>{detalleNoEncontrado}</p>
           <button type="button" className="boton-home primario" onClick={onVolver}>
             <Flecha />
-            {tEstados.volverInicio || (en ? "Back to home" : "Volver al inicio")}
+            {textoVolverInicio}
           </button>
         </div>
       </LayoutPublico>
@@ -359,7 +390,7 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
            <div className="catalogo-barra-superior">
             <label htmlFor="selector-orden-cromos" className="etiqueta-orden">
               {typeof tAlbum.orden === "object"
-                ? tAlbum.orden?.etiqueta || (en ? "Order:" : "Orden:")
+                ? (tAlbum.orden?.etiqueta || (en ? "Order:" : "Orden:")).replace(" {orden}", "")
                 : tAlbum.orden || (en ? "Order:" : "Orden:")}
             </label>
               <select
@@ -390,7 +421,7 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
               </div>
             ) : hayError ? (
               <div className="catalogo-estado-mensaje error" role="alert">
-                <p>{tEstados.error || (en ? "An error occurred." : "Ha ocurrido un error.")}</p>
+                <p>{detalleError}</p>
                 <button
                   type="button"
                   className="boton-home primario"
@@ -399,18 +430,18 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
                     if (tieneFiltros) recargarCromos();
                   }}
                 >
-                  {tEstados.reintentar || (en ? "Retry" : "Reintentar")}
+                  {textoReintentar}
                 </button>
               </div>
             ) : cromosAvanzados.length === 0 ? (
               <div className="catalogo-estado-mensaje vacio" role="status">
-                <p>{tAlbum.noCromosFiltro || tEstados.vacio || (en ? "No cards match that filter" : "No hay cromos con ese filtro")}</p>
+                <p>{textoVacio}</p>
                 <button
                   type="button"
                   className="boton-home secundario"
                   onClick={limpiarFiltros}
                 >
-                  {tAlbum.limpiarFiltros || (en ? "Clear filters" : "Limpiar filtros")}
+                  {textoLimpiarFiltros}
                 </button>
               </div>
             ) : (

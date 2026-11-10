@@ -1,4 +1,3 @@
-/* Botón Disparador de Accesibilidad */
 .boton-accesibilidad {
   width: 44px;
   height: 44px;
@@ -54,7 +53,7 @@
 }
 
 .cabecera-modal-a11y h2 {
-  font: 800 22px var(--fuente-titulos);
+  font: 800 20px var(--fuente-titulos);
   margin: 0;
 }
 

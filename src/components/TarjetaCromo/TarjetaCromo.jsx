@@ -96,14 +96,13 @@ export default function TarjetaCromo({
     >
       <span className="cromo-numero">{numeroFormateado}</span>
 
-
       <span
         className="cromo-rareza"
         style={{ borderColor: "var(--color-rareza, #191130)" }}
         aria-label={rarezaNombre}
+        title={rarezaNombre}
       >
         <IconoMundo nombre={rarezaIcono} />
-        <span className="rareza-texto">{rarezaNombre}</span>
       </span>
 
       <IlustracionCromo mundo={mundoIlustracion} />
