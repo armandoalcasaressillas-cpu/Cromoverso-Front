@@ -207,3 +207,12 @@
     border-color: rgba(255, 255, 255, 0.3);
   }
 }
+
+@media (max-width: 640px) {
+  .cromoverso .fila-cabecera {
+    min-height: 58px;
+  }
+  .cromoverso .cabecera-home {
+    min-height: 60px;
+  }
+}

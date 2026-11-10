@@ -2,7 +2,7 @@
   padding: 56px 0 32px;
 }
 .seccion-mundos h2 {
-  font-size: 32px;
+  font-size: 28px;
   margin-bottom: 4px;
 }
 .seccion-mundos p {
@@ -32,7 +32,7 @@
 }
 @media (max-width: 640px) {
   .seccion-mundos h2 {
-    font-size: 26px;
+    font-size: 28px;
   }
 }
 @media (max-width: 640px) {

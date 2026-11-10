@@ -7,6 +7,7 @@ import { usePreferencias } from "../context/PreferenciasContext.jsx";
 import { useTextos } from "../context/TextosContext.jsx";
 import { useRecurso } from "../hooks/useRecurso.js";
 import { useDetalle } from "../hooks/useDetalle.js";
+import { obtenerTextoSeguro } from "../utils/textos.js";
 
 export default function Home({ onVerMundo }) {
   const { idioma } = usePreferencias();
@@ -84,13 +85,20 @@ export default function Home({ onVerMundo }) {
   }
 
   const tEstados = textos?.estados || {};
-  const textoCargando = tEstados.cargando || (en ? "Loading..." : "Cargando...");
-  const textoError =
-    tEstados.error ||
-    (en
+  const textoCargando = obtenerTextoSeguro(
+    tEstados.cargando,
+    en ? "Loading..." : "Cargando...",
+  );
+  const textoError = obtenerTextoSeguro(
+    tEstados.error,
+    en
       ? "Unable to load data. Please check your connection."
-      : "No se pudieron cargar los datos. Revisa tu conexión.");
-  const textoReintentar = tEstados.reintentar || (en ? "Retry" : "Reintentar");
+      : "No se pudieron cargar los datos. Revisa tu conexión.",
+  );
+  const textoReintentar = obtenerTextoSeguro(
+    tEstados.error?.botones?.reintentar || tEstados.reintentar,
+    en ? "Retry" : "Reintentar",
+  );
 
   const hayError = errorMundos || (errorPrimerMundo && !respuestaPrimerMundo);
   const estaCargando = cargandoMundos || (!respuestaMundos && cargandoPrimerMundo);
