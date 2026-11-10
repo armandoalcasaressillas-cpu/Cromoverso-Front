@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Unbounded:wght@500;600;700;800&display=swap");
 
 :root {
   --fondo: #fff9eb;
@@ -8,8 +8,8 @@
   --acento: #713bfa;
   --sobre-acento: #fff;
   --borde: #191130;
-  --fuente-texto: "DM Sans", sans-serif;
-  --fuente-titulos: "Syne", sans-serif;
+  --fuente-texto: "Rubik", sans-serif;
+  --fuente-titulos: "Unbounded", sans-serif;
   --color-foco: #713bfa;
   --espacio-1: 0.5rem;
   --espacio-2: 1rem;

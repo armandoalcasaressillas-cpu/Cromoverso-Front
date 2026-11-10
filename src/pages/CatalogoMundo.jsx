@@ -96,10 +96,10 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
   const rarezasOrdenadas = useMemo(() => {
     const ordenClaves = ["legendaria", "epica", "rara", "comun"];
     const base = [
-      { id: "legendaria", nombre: en ? "LEGENDARY" : "LEGENDARIA", icono: "estrella", color: "#f59e0b" },
-      { id: "epica", nombre: en ? "EPIC" : "ÉPICA", icono: "destello", color: "#8b5cf6" },
-      { id: "rara", nombre: en ? "RARE" : "RARA", icono: "orbita", color: "#3b82f6" },
-      { id: "comun", nombre: en ? "COMMON" : "COMÚN", icono: "rayo", color: "#64748b" },
+      { id: "legendaria", nombre: en ? "LEGENDARY" : "LEGENDARIA", icono: "corona", color: "#f59e0b" },
+      { id: "epica", nombre: en ? "EPIC" : "ÉPICA", icono: "estrella", color: "#8b5cf6" },
+      { id: "rara", nombre: en ? "RARE" : "RARA", icono: "rombo", color: "#3b82f6" },
+      { id: "comun", nombre: en ? "COMMON" : "COMÚN", icono: "circulo", color: "#64748b" },
     ];
     return base.map((item) => {
       const encontrada = rarezasApi.find((r) => r.id?.toLowerCase() === item.id);

@@ -21,8 +21,9 @@
 .cromo b {
   display: block;
   font:
-    800 20px "Syne",
+    800 20px var(--fuente-titulos),
     sans-serif;
+  letter-spacing: -0.03em;
   margin: 6px 2px 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -68,21 +69,25 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  color: var(--color-rareza, #191130);
   z-index: 2;
-  background: #fff;
-  border: 2px solid var(--color-rareza, #191130);
-  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 3px;
+  width: 16px;
+  height: 22px;
+  padding: 0;
+  color: var(--color-rareza, var(--tinta));
+  background: #fff;
+  border: 2px solid var(--tinta);
+  border-radius: 99px;
 }
 .cromo-rareza svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  color: var(--color-rareza, #191130);
+  width: 11px;
+  height: 11px;
+  fill: currentColor;
+}
+.cromo-rareza svg path {
+  fill: currentColor;
 }
 
 .cromo-041 {
@@ -131,14 +136,6 @@
   .cromo-rareza {
     right: 8px;
     top: 8px;
-    padding: 2px;
-    border-radius: 8px;
-  }
-}
-@media (max-width: 640px) {
-  .cromo-rareza svg {
-    width: 13px;
-    height: 13px;
   }
 }
 @media (max-width: 640px) {
