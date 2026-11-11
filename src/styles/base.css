@@ -35,7 +35,7 @@ select {
   background: var(--fondo);
   color: var(--tinta);
   min-height: 100dvh;
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--fuente-texto);
 }
 
 .landing h1,
@@ -188,7 +188,7 @@ select {
 .cromoverso h1,
 .cromoverso h2,
 .cromoverso h3 {
-  font-family: "Syne", sans-serif;
+  font-family: var(--fuente-titulos);
   font-weight: 800;
 }
 .cromoverso .boton-home {

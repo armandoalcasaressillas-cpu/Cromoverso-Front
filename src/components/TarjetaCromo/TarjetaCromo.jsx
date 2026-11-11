@@ -40,12 +40,12 @@ export default function TarjetaCromo({
       };
       rarezaIcono =
         idRareza === "legendaria"
-          ? "estrella"
+          ? "corona"
           : idRareza === "epica"
-            ? "destello"
+            ? "estrella"
             : idRareza === "rara"
-              ? "orbita"
-              : "rayo";
+              ? "rombo"
+              : "circulo";
       rarezaNombre =
         cromo.rareza.charAt(0).toUpperCase() + cromo.rareza.slice(1);
       rarezaColor = mapaColores[idRareza] || "#713bfa";
@@ -103,6 +103,7 @@ export default function TarjetaCromo({
         title={rarezaNombre}
       >
         <IconoMundo nombre={rarezaIcono} />
+        <span className="solo-lectores">{rarezaNombre}</span>
       </span>
 
       <IlustracionCromo mundo={mundoIlustracion} />

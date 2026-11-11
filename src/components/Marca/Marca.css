@@ -3,7 +3,7 @@
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
-  font-family: "Syne", sans-serif;
+  font-family: var(--fuente-titulos);
   font-size: 20px;
   font-weight: 700;
 }
