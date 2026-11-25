@@ -103,8 +103,8 @@
   padding: 12px 14px;
   border: 2px solid #c0262d;
   border-radius: 12px;
-  background: #ffe5e3;
-  color: #191130;
+  background: var(--superficie-error);
+  color: var(--tinta);
   outline: none;
 }
 .ingresar-alerta svg {
@@ -115,11 +115,12 @@
 .ingresar-alerta b {
   display: block;
   font-size: 14px;
+  color: var(--tinta);
 }
 .ingresar-alerta p {
   margin: 2px 0 0;
   font-size: 13px;
-  color: #4a2025;
+  color: var(--suave);
 }
 .ingresar-alerta:focus-visible {
   box-shadow: 0 0 0 3px var(--color-foco);
@@ -136,20 +137,21 @@
 .ingresar-campo label {
   font-size: 13px;
   font-weight: 700;
+  color: var(--tinta);
 }
 .ingresar-campo input {
   width: 100%;
   min-height: 46px;
   padding: 10px 14px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 12px;
-  background: #fff;
-  color: #191130;
+  background: var(--superficie);
+  color: var(--tinta);
   font: inherit;
   font-size: 15px;
 }
 .ingresar-campo input::placeholder {
-  color: #8c839f;
+  color: var(--suave);
 }
 .ingresar-campo input:focus-visible {
   outline: 3px solid var(--color-foco);
@@ -157,7 +159,7 @@
 }
 .ingresar-campo input[aria-invalid="true"] {
   border-color: #c0262d;
-  background: #fff6f5;
+  background: var(--superficie-error);
 }
 .ingresar-campo input:disabled {
   opacity: 0.7;
@@ -186,11 +188,11 @@
   border: 0;
   border-radius: 10px;
   background: none;
-  color: #191130;
+  color: var(--tinta);
   cursor: pointer;
 }
 .ingresar-ver-clave:hover {
-  background: #f1ebff;
+  background: var(--superficie-suave);
 }
 
 .ingresar-opciones {

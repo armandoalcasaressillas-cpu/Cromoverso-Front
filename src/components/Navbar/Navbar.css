@@ -125,14 +125,14 @@
   }
 }
 .cromoverso .cabecera-home {
-  background: #fff;
-  border-bottom: 2px solid #191130;
+  background: var(--superficie);
+  border-bottom: 2px solid var(--borde);
 }
 .cromoverso .fila-cabecera {
   min-height: 74px;
 }
 .cromoverso .menu-home > a {
-  color: #191130;
+  color: var(--tinta);
   font-weight: 700;
 }
 .cromoverso .acciones-home {
@@ -140,11 +140,13 @@
 }
 .cromoverso .ingresar-home {
   padding: 9px 18px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 99px;
   font-size: 12px;
   font-weight: 700;
-  box-shadow: 2px 2px 0 #191130;
+  background: var(--superficie);
+  color: var(--tinta);
+  box-shadow: 2px 2px 0 var(--borde);
 }
 @media (max-width: 640px) {
   .cromoverso .cabecera-home {
@@ -227,7 +229,7 @@
   display: inline-grid;
   place-items: center;
   flex: none;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 50%;
   background: #ffd642;
   color: #191130;
@@ -257,9 +259,9 @@
 }
 .cuenta-boton:hover,
 .cuenta-boton[aria-expanded="true"] {
-  border-color: #191130;
-  background: #fff;
-  color: #191130;
+  border-color: var(--borde);
+  background: var(--superficie);
+  color: var(--tinta);
 }
 .cuenta-boton .avatar-nav {
   cursor: pointer;
@@ -271,11 +273,11 @@
   z-index: 50;
   min-width: 240px;
   padding: 12px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 14px;
-  background: #fff;
-  color: #191130;
-  box-shadow: 4px 4px 0 #191130;
+  background: var(--superficie);
+  color: var(--tinta);
+  box-shadow: 4px 4px 0 var(--borde);
 }
 .menu-cuenta-usuario {
   display: flex;
@@ -287,6 +289,7 @@
 .menu-cuenta-usuario b {
   display: block;
   font-size: 14px;
+  color: var(--tinta);
 }
 .menu-cuenta-usuario small {
   display: block;
@@ -305,7 +308,7 @@
   border: 0;
   border-radius: 10px;
   background: none;
-  color: #191130;
+  color: var(--tinta);
   font: inherit;
   font-weight: 700;
   font-size: 14px;
@@ -313,7 +316,7 @@
   text-align: left;
 }
 .menu-cuenta-salir:hover {
-  background: #f1ebff;
+  background: var(--superficie-suave);
 }
 .sesion-movil {
   display: none;
@@ -331,8 +334,8 @@
     margin-top: 12px;
     padding: 12px;
     border-radius: 14px;
-    background: #fff;
-    color: #191130;
+    background: var(--superficie);
+    color: var(--tinta);
   }
   .sesion-movil-datos {
     flex: 1;

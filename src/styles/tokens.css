@@ -3,6 +3,9 @@
 :root {
   --fondo: #fff9eb;
   --superficie: #fff;
+  --superficie-suave: #f1ebff;
+  --superficie-calida: #fff4dd;
+  --superficie-error: #ffe5e3;
   --tinta: #191130;
   --suave: #504765;
   --acento: #713bfa;

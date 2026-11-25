@@ -266,3 +266,24 @@ Usó `pushState` hacia `/cromos/:id` y disparó `popstate` para que `App` cambia
 
 **Corrección:**  
 `CatalogoMundo` solo vuelve a leer los filtros cuando la ruta empieza por `/mundos/`. Al cerrar el modal se usa `history.back()` cuando el cromo se abrió desde la app, así se recupera la URL anterior con sus filtros. Si se entró directo por el enlace, se reemplaza por `/mundos/:id`. Se verificó con una prueba automatizada: `/mundos/neon?rareza=epica` → abrir Holograma → `Escape` → vuelve a `/mundos/neon?rareza=epica`.
+
+---
+
+## 2026-11-24 — Pérdida de legibilidad y texto blanco sobre fondos claros en modo Alto Contraste
+
+**Prompt:**  
+"Al activar 'Alto contraste' en el panel de accesibilidad, muchos textos se vuelven invisibles: números de cromos sobre fondo blanco, títulos h2 en modales con fondo blanco fijo, chips, etiquetas y botones del hero y navbar quedan blanco sobre blanco."
+
+**Respuesta de la IA:**  
+"Agrega una regla global en `accesibilidad.css` con `.alto-contraste * { color: #fff !important; background: #000 !important; }` para asegurar que todo sea de alto contraste."
+
+**Problema:**  
+1. Aplicar reglas universales o selectores globales con `!important` (`a, b, h1, h2, h3 { color: #fff !important; }`) fuerza texto blanco sin considerar la jerarquía de capas ni fondos específicos definidos con colores fijos hexadecimales en los componentes.
+2. Componentes como el modal de detalle (`.detalle-cromo`), tarjetas (`.cromo`), chips (`.detalle-cromo-chips li`), atributos (`.detalle-cromo-atributos`), inputs y alertas de ingreso (`Ingresar.css`) y cabeceras (`Navbar.css`) tenían fondos fijos (`#fff`, `#f1ebff`, `#fff4dd`, `#ffe5e3`, `#fff9eb`, `#191130`) que provocaban texto blanco sobre fondos claros, rompiendo el criterio WCAG AA (mínimo 4.5:1).
+3. El color de acento (`--acento: #ff0` o `#ffeb3b`) se utilizaba como color de texto sobre fondos claros en lugar de usarse con contraste garantizado.
+
+**Corrección:**  
+1. Se eliminó la regla global con `!important` que forzaba blanco en `a, b, h1, h2, h3`.
+2. Se crearon tokens semánticos en `src/styles/tokens.css`: `--superficie-suave: #f1ebff`, `--superficie-calida: #fff4dd` y `--superficie-error: #ffe5e3`.
+3. En `src/styles/accesibilidad.css`, la clase `.alto-contraste` redefine estos tokens a fondo oscuro (`--superficie: #000`, `--superficie-suave: #111`, `--superficie-calida: #111`, `--superficie-error: #2a0000`, `--tinta: #fff`, `--suave: #e6e6e6`, `--borde: #fff`), utilizando `--acento: #ffeb3b` con texto oscuro contrastante (`--sobre-acento: #000`).
+4. Se revisaron y refactorizaron todos los archivos CSS de componentes (`TarjetaCromo.css`, `DetalleCromo.css`, `Navbar.css`, `HeroCromoverso.css`, `TarjetaMundo.css`, `CatalogoMundo.css`, `Ingresar.css`, `base.css`), reemplazando colores hexadecimales fijos por las variables del sistema de diseño (`var(--superficie)`, `var(--tinta)`, `var(--suave)`, `var(--borde)`, etc.), preservando intacto el diseño en modo normal y garantizando contraste superior a 4.5:1 en modo alto contraste.

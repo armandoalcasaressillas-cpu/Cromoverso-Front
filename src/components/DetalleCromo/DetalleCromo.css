@@ -3,11 +3,11 @@
   width: min(760px, calc(100% - 32px));
   max-height: calc(100dvh - 40px);
   padding: 0;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 20px;
-  background: #fff;
+  background: var(--superficie);
   color: var(--tinta);
-  box-shadow: 6px 6px 0 #191130;
+  box-shadow: 6px 6px 0 var(--borde);
   overflow: auto;
 }
 .detalle-cromo::backdrop {
@@ -31,14 +31,14 @@ body:has(.detalle-cromo[open]) {
   height: 36px;
   display: grid;
   place-items: center;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 50%;
-  background: #fff;
-  color: #191130;
+  background: var(--superficie);
+  color: var(--tinta);
   cursor: pointer;
 }
 .detalle-cromo-cerrar:hover {
-  background: #f1ebff;
+  background: var(--superficie-suave);
 }
 
 /* --- Cuerpo: carta + información --- */
@@ -52,22 +52,23 @@ body:has(.detalle-cromo[open]) {
   position: relative;
   margin: 0;
   padding: 8px;
-  border: 3px solid var(--color-rareza, #191130);
+  border: 3px solid var(--color-rareza, var(--borde));
   border-radius: 18px;
   background: var(--acento);
-  box-shadow: 5px 5px 0 #191130;
+  box-shadow: 5px 5px 0 var(--borde);
 }
 .detalle-cromo-carta .retrato-heroe {
   display: block;
   width: 100%;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 12px;
 }
 .detalle-cromo-carta figcaption {
   margin: 8px 2px 2px;
   padding: 6px 8px;
   border-radius: 10px;
-  background: #fff;
+  background: var(--superficie);
+  color: var(--tinta);
 }
 .detalle-cromo-carta figcaption b {
   display: block;
@@ -84,9 +85,10 @@ body:has(.detalle-cromo[open]) {
   top: 16px;
   z-index: 1;
   padding: 2px 8px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 99px;
-  background: #fff;
+  background: var(--superficie);
+  color: var(--tinta);
   font: 800 12px var(--fuente-titulos), sans-serif;
 }
 .detalle-cromo-numero {
@@ -97,7 +99,7 @@ body:has(.detalle-cromo[open]) {
   padding: 2px 4px;
   display: grid;
   place-items: center;
-  color: var(--color-rareza, #191130);
+  color: var(--color-rareza, var(--tinta));
 }
 .detalle-cromo-icono-rareza svg {
   width: 14px;
@@ -124,21 +126,22 @@ body:has(.detalle-cromo[open]) {
   align-items: center;
   gap: 4px;
   padding: 3px 10px;
-  border: 1.5px solid #191130;
+  border: 1.5px solid var(--borde);
   border-radius: 99px;
-  background: #f1ebff;
+  background: var(--superficie-suave);
+  color: var(--tinta);
   font-size: 11px;
   font-weight: 700;
 }
 .detalle-cromo-chips .chip-rareza {
-  border-color: var(--color-rareza, #191130);
+  border-color: var(--color-rareza, var(--borde));
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 .detalle-cromo-chips .chip-rareza svg {
   width: 13px;
   height: 13px;
-  color: var(--color-rareza, #191130);
+  color: var(--color-rareza, var(--tinta));
 }
 .detalle-cromo-ubicacion {
   margin: 0;
@@ -150,15 +153,17 @@ body:has(.detalle-cromo[open]) {
   margin: 2px 0 14px;
   font: 800 clamp(26px, 4vw, 34px) / 1.1 var(--fuente-titulos), sans-serif;
   letter-spacing: -0.03em;
+  color: var(--tinta);
 }
 .detalle-cromo-poder {
   display: flex;
   gap: 12px;
   align-items: center;
   padding: 12px 14px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 14px;
-  background: #f1ebff;
+  background: var(--superficie-suave);
+  color: var(--tinta);
 }
 .detalle-cromo-poder-icono {
   flex: none;
@@ -168,7 +173,7 @@ body:has(.detalle-cromo[open]) {
   place-items: center;
   border-radius: 50%;
   background: var(--acento);
-  color: #fff;
+  color: var(--sobre-acento);
 }
 .detalle-cromo-poder-icono svg {
   width: 18px;
@@ -196,7 +201,8 @@ body:has(.detalle-cromo[open]) {
 .detalle-cromo-atributos {
   padding: 14px 16px;
   border-radius: 14px;
-  background: #fff4dd;
+  background: var(--superficie-calida);
+  color: var(--tinta);
 }
 .detalle-cromo-atributos header {
   display: flex;
@@ -207,6 +213,7 @@ body:has(.detalle-cromo[open]) {
 .detalle-cromo-atributos h3 {
   margin: 0;
   font-size: 14px;
+  color: var(--tinta);
 }
 .detalle-cromo-atributos header span {
   font-size: 12px;
@@ -227,6 +234,7 @@ body:has(.detalle-cromo[open]) {
 .detalle-cromo-atributo dt {
   font-size: 13px;
   font-weight: 700;
+  color: var(--tinta);
 }
 .detalle-cromo-atributo dd {
   margin: 0;
@@ -237,9 +245,9 @@ body:has(.detalle-cromo[open]) {
 }
 .detalle-cromo-atributo .barra {
   height: 10px;
-  border: 1.5px solid #191130;
+  border: 1.5px solid var(--borde);
   border-radius: 99px;
-  background: #fff;
+  background: var(--superficie);
   overflow: hidden;
 }
 .detalle-cromo-atributo .barra span {
@@ -352,7 +360,7 @@ body:has(.detalle-cromo[open]) {
     margin-bottom: 8px;
     padding: 5px;
     border-radius: 14px;
-    box-shadow: 3px 3px 0 #191130;
+    box-shadow: 3px 3px 0 var(--borde);
   }
   .detalle-cromo-numero,
   .detalle-cromo-icono-rareza {

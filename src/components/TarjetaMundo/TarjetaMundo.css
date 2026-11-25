@@ -4,11 +4,11 @@
   flex-direction: column;
   gap: 16px;
   padding: 16px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 18px;
-  box-shadow: 4px 4px 0 #191130;
+  box-shadow: 4px 4px 0 var(--borde);
   background: var(--fondo-mundo);
-  color: #191130;
+  color: var(--tinta);
   text-align: left;
   transition: transform 180ms ease;
 }
@@ -20,22 +20,23 @@
   place-items: center;
   height: 44px;
   width: 44px;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 50%;
   background: var(--mundo);
   color: #fff;
 }
 .tarjeta-mundo b {
   font-size: 15px;
+  color: var(--tinta);
 }
 .tarjeta-mundo small {
   font-size: 14px;
-  color: #504765;
+  color: var(--suave);
 }
 .rango-numeros {
   font-size: 12px;
   font-weight: 600;
-  color: #504765;
+  color: var(--suave);
   margin-top: -8px;
 }
 .etiqueta-mundo {
