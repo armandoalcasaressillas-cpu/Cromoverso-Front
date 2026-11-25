@@ -138,14 +138,14 @@ export default function DetalleCromo({
     if (!error) return "";
     if (error.codigo === "sin_conexion") {
       return obtenerTextoSeguro(
-        textos?.paginas?.ingresar?.errores?.conexion?.texto,
+        textos?.estados?.sinConexion?.texto || textos?.paginas?.ingresar?.errores?.conexion?.texto,
         en
           ? "Check your internet connection and try again."
           : "Revisa tu conexión a internet e inténtalo de nuevo.",
       );
     }
     return obtenerTextoSeguro(
-      textos?.errores?.[error.codigo] || textos?.errores?.generico,
+      textos?.errores?.[error.codigo] || textos?.estados?.error?.texto || textos?.errores?.generico,
       en ? "Something went wrong. Please try again." : "Algo salió mal. Vuelve a intentarlo.",
     );
   }

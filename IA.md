@@ -287,3 +287,25 @@ Usó `pushState` hacia `/cromos/:id` y disparó `popstate` para que `App` cambia
 2. Se crearon tokens semánticos en `src/styles/tokens.css`: `--superficie-suave: #f1ebff`, `--superficie-calida: #fff4dd` y `--superficie-error: #ffe5e3`.
 3. En `src/styles/accesibilidad.css`, la clase `.alto-contraste` redefine estos tokens a fondo oscuro (`--superficie: #000`, `--superficie-suave: #111`, `--superficie-calida: #111`, `--superficie-error: #2a0000`, `--tinta: #fff`, `--suave: #e6e6e6`, `--borde: #fff`), utilizando `--acento: #ffeb3b` con texto oscuro contrastante (`--sobre-acento: #000`).
 4. Se revisaron y refactorizaron todos los archivos CSS de componentes (`TarjetaCromo.css`, `DetalleCromo.css`, `Navbar.css`, `HeroCromoverso.css`, `TarjetaMundo.css`, `CatalogoMundo.css`, `Ingresar.css`, `base.css`), reemplazando colores hexadecimales fijos por las variables del sistema de diseño (`var(--superficie)`, `var(--tinta)`, `var(--suave)`, `var(--borde)`, etc.), preservando intacto el diseño en modo normal y garantizando contraste superior a 4.5:1 en modo alto contraste.
+
+---
+
+## 2026-11-24 — Sincronización de textos de estados de carga, error y sin conexión desde `textos.estados` de la API
+
+**Prompt:**  
+"Los textos de los estados deben salir de la API (`GET /textos?idioma=es|en&seccion=estados`), pero algunos componentes leen claves equivocadas como `textos.errores || textos.estados`, y `sin_conexion` no existe en `textos.errores`. Sincroniza `Home.jsx`, `CatalogoMundo.jsx`, `interfaz.js` y el resto de componentes para leer de `textos.estados` (`cargando`, `cargandoMundo`, `error.{titulo,texto,botones.reintentar}`, `sinConexion.{titulo,texto}`)."
+
+**Respuesta de la IA:**  
+"En `Home.jsx`, deja `const tEstados = textos.errores` y si falla la conexión pon un texto fijo quemado en el componente usando un operador ternario."
+
+**Problema:**  
+1. En `Home.jsx`, la expresión `textos?.errores || textos?.estados` provocaba que siempre se evaluara `textos.errores` porque este objeto siempre existe en la respuesta de la API, impidiendo que el componente accediera a `textos.estados`.
+2. La clave `textos.errores.sin_conexion` no existe en el contrato de la API; la API estructura los estados en `textos.estados.sinConexion.titulo` y `textos.estados.sinConexion.texto`.
+3. Al dejar textos fijos quemados se rompía la internacionalización dinámica en inglés (`en`) provista por `GET /textos`.
+
+**Corrección:**  
+1. En `src/pages/Home.jsx`, se corrigió la lectura a `const tEstados = textos?.estados || {}` y `const tErrores = textos?.errores || {}`. La carga lee `tEstados.cargando`; los errores muestran `tEstados.error.titulo`, `tEstados.error.texto` (o el mensaje específico si `codigo` existe en `tErrores`, ej: `falla_simulada` con `?simularError=503`), y el botón `tEstados.error.botones.reintentar`.
+2. Para pérdida de conexión, tanto `Home.jsx` como `CatalogoMundo.jsx` leen `tEstados.sinConexion.titulo` y `tEstados.sinConexion.texto`, manteniendo el botón reintentar de `tEstados.error.botones.reintentar`.
+3. En `CatalogoMundo.jsx`, se implementó `tEstados.cargandoMundo` con la utilidad `interpolar` de `src/utils/navegacion.js` para reemplazar `{mundo}` por el nombre del mundo obtenido de `mundo.nombre` o `listaMundos` mientras cargan los cromos, mostrando un título visible en los esqueletos.
+4. En `src/data/interfaz.js`, se sincronizó la estructura del respaldo local en `es` y `en` con la misma forma de la API (`cargando`, `cargandoMundo`, `error`, `sinConexion`, `vacio`, `noEncontrado`).
+5. Se actualizaron `DetalleCromo.jsx` y `ResolverCromo.jsx` para priorizar `textos.estados` y `textos.errores`.
