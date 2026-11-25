@@ -1,7 +1,15 @@
 import { useState } from "react";
+import { navegar } from "../utils/navegacion.js";
 export function useDetalle(idioma = "es") {
   const [detalle, setDetalle] = useState(null);
   function abrirCuenta(tipo) {
+    // Sprint 2: "Ingresar" lleva a la vista real de inicio de sesión.
+    if (tipo === "ingresar") {
+      navegar("/ingresar");
+      window.scrollTo({ top: 0 });
+      return;
+    }
+    // El registro llega en el Sprint 3: por ahora se mantiene el aviso.
     const en = idioma === "en";
     setDetalle({
       titulo:
