@@ -89,30 +89,52 @@ export default function Home({ onVerMundo, onAbrirCromo }) {
     recargarPrimerMundo();
   }
 
-  const tEstados = textos?.errores || textos?.estados || {};
+  const tEstados = textos?.estados || {};
+  const tErrores = textos?.errores || {};
+
+  const errorActual = errorMundos || errorPrimerMundo;
   const esSinConexion =
     errorMundos?.codigo === "sin_conexion" ||
     errorPrimerMundo?.codigo === "sin_conexion";
 
-  const textoSinConexion = obtenerTextoSeguro(
-    textos?.errores?.sin_conexion || tEstados?.sin_conexion,
-    en
-      ? "No connection. Check your network and try again."
-      : "No hay conexión. Revisa tu red e inténtalo de nuevo.",
-  );
-
   const textoCargando = obtenerTextoSeguro(
     tEstados.cargando,
-    en ? "Loading..." : "Cargando...",
+    en ? "Loading…" : "Cargando…",
   );
-  const textoError = esSinConexion
-    ? textoSinConexion
-    : obtenerTextoSeguro(
-        tEstados.error,
+
+  let tituloError = "";
+  let detalleError = "";
+
+  if (esSinConexion) {
+    tituloError = obtenerTextoSeguro(
+      tEstados.sinConexion?.titulo,
+      en ? "No connection" : "Sin conexión",
+    );
+    detalleError = obtenerTextoSeguro(
+      tEstados.sinConexion?.texto,
+      en
+        ? "No connection. Check your network and try again."
+        : "No hay conexión. Revisa tu red e inténtalo de nuevo.",
+    );
+  } else {
+    tituloError = obtenerTextoSeguro(
+      tEstados.error?.titulo || tEstados.error,
+      en ? "Unable to load data." : "No se pudieron cargar los datos.",
+    );
+    const mensajeCodigo =
+      errorActual?.codigo && tErrores[errorActual.codigo]
+        ? obtenerTextoSeguro(tErrores[errorActual.codigo])
+        : null;
+    detalleError =
+      mensajeCodigo ||
+      obtenerTextoSeguro(
+        tEstados.error?.texto,
         en
           ? "Unable to load data. Please check your connection."
           : "No se pudieron cargar los datos. Revisa tu conexión.",
       );
+  }
+
   const textoReintentar = obtenerTextoSeguro(
     tEstados.error?.botones?.reintentar || tEstados.reintentar,
     en ? "Retry" : "Reintentar",
@@ -178,7 +200,10 @@ export default function Home({ onVerMundo, onAbrirCromo }) {
             }}
             role="alert"
           >
-            <h2>{textoError}</h2>
+            <h2>{tituloError}</h2>
+            {detalleError && detalleError !== tituloError && (
+              <p style={{ color: "var(--suave)", margin: "-8px 0 0" }}>{detalleError}</p>
+            )}
             <button
               type="button"
               className="boton-home primario"

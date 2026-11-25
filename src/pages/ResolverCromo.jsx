@@ -72,12 +72,12 @@ export default function ResolverCromo({ cromoId, onVolver }) {
           <div role="alert">
             <h1>
               {obtenerTextoSeguro(
-                textos?.errores?.[error.codigo] || textos?.errores?.generico,
+                textos?.errores?.[error.codigo] || textos?.estados?.error?.titulo || textos?.errores?.generico,
                 en ? "Something went wrong. Please try again." : "Algo salió mal. Vuelve a intentarlo.",
               )}
             </h1>
             <button type="button" className="boton-home primario" onClick={recargar}>
-              {en ? "Retry" : "Reintentar"}
+              {obtenerTextoSeguro(textos?.estados?.error?.botones?.reintentar, en ? "Retry" : "Reintentar")}
             </button>
           </div>
         ) : (

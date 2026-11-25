@@ -96,11 +96,31 @@ export const interfaz = {
       desactivado: "Desactivado",
     },
     estados: {
-      cargando: "Cargando...",
-      error: "Ha ocurrido un error al cargar la información.",
+      cargando: "Cargando…",
+      cargandoMundo: "Cargando {mundo}",
+      error: {
+        titulo: "Ha ocurrido un error al cargar la información.",
+        texto: "No se pudieron cargar los datos. Revisa tu conexión.",
+        botones: {
+          reintentar: "Reintentar",
+        },
+      },
+      sinConexion: {
+        titulo: "Sin conexión",
+        texto: "No hay conexión. Revisa tu red e inténtalo de nuevo.",
+      },
       reintentar: "Reintentar",
-      vacio: "No hay cromos con ese filtro.",
-      noEncontrado: "El mundo solicitado no existe.",
+      vacio: {
+        titulo: "No hay nada por aquí todavía.",
+        texto: "No se encontraron cromos.",
+      },
+      noEncontrado: {
+        titulo: "El mundo solicitado no existe.",
+        texto: "El mundo solicitado no existe o no está disponible.",
+        botones: {
+          irAlInicio: "Volver al inicio",
+        },
+      },
       volverInicio: "Volver al inicio",
     },
     paginas: {
@@ -246,11 +266,31 @@ export const interfaz = {
       desactivado: "Disabled",
     },
     estados: {
-      cargando: "Loading...",
-      error: "An error occurred while loading information.",
+      cargando: "Loading…",
+      cargandoMundo: "Loading {mundo}",
+      error: {
+        titulo: "An error occurred while loading information.",
+        texto: "Unable to load data. Please check your connection.",
+        botones: {
+          reintentar: "Retry",
+        },
+      },
+      sinConexion: {
+        titulo: "No connection",
+        texto: "No connection. Check your network and try again.",
+      },
       reintentar: "Retry",
-      vacio: "No cards match that filter.",
-      noEncontrado: "The requested world does not exist.",
+      vacio: {
+        titulo: "Nothing here yet.",
+        texto: "No cards match that filter.",
+      },
+      noEncontrado: {
+        titulo: "The requested world does not exist.",
+        texto: "The requested world does not exist or has been removed.",
+        botones: {
+          irAlInicio: "Back to home",
+        },
+      },
       volverInicio: "Back to home",
     },
     paginas: {

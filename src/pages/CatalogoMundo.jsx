@@ -11,6 +11,7 @@ import { useTextos } from "../context/TextosContext.jsx";
 import { useRecurso } from "../hooks/useRecurso.js";
 import { useDetalle } from "../hooks/useDetalle.js";
 import { obtenerTextoSeguro } from "../utils/textos.js";
+import { interpolar } from "../utils/navegacion.js";
 import "./CatalogoMundo.css";
 
 export default function CatalogoMundo({
@@ -225,37 +226,47 @@ export default function CatalogoMundo({
     errorMundo?.codigo === "sin_conexion" ||
     (tieneFiltros && errorCromos?.codigo === "sin_conexion");
 
-  const textoSinConexion = obtenerTextoSeguro(
-    textos?.errores?.sin_conexion || tEstados?.sin_conexion,
+  const textoSinConexionTitulo = obtenerTextoSeguro(
+    tEstados.sinConexion?.titulo,
+    en ? "No connection" : "Sin conexión",
+  );
+  const textoSinConexionDetalle = obtenerTextoSeguro(
+    tEstados.sinConexion?.texto,
     en
       ? "No connection. Check your network and try again."
       : "No hay conexión. Revisa tu red e inténtalo de nuevo.",
   );
 
-  const textoError = esSinConexion
-    ? textoSinConexion
+  const nombreMundoParaCarga =
+    mundo?.nombre || listaMundos.find((m) => m.id === mundoId)?.nombre || "";
+
+  const textoCargando = nombreMundoParaCarga && tEstados.cargandoMundo
+    ? interpolar(tEstados.cargandoMundo, { mundo: nombreMundoParaCarga })
     : obtenerTextoSeguro(
-        tEstados.error,
-        en ? "An error occurred." : "Ha ocurrido un error.",
+        tEstados.cargando,
+        en ? "Loading…" : "Cargando…",
       );
-  const textoCargando = obtenerTextoSeguro(
-    tEstados.cargando,
-    en ? "Loading…" : "Cargando…",
-  );
+
   // US-CRO-S2-02: el mensaje del error sale de textos.errores[codigo]
   // (por ejemplo falla_simulada con X-Simular-Error: 503)
   const codigoError = errorMundo?.codigo || (tieneFiltros ? errorCromos?.codigo : null);
+  const tituloError = esSinConexion
+    ? textoSinConexionTitulo
+    : obtenerTextoSeguro(
+        tEstados.error?.titulo || tEstados.error,
+        en ? "An error occurred." : "Ha ocurrido un error.",
+      );
   const detalleError = esSinConexion
-    ? textoSinConexion
-    : (typeof textos?.errores?.[codigoError] === "string" && textos.errores[codigoError]) ||
+    ? textoSinConexionDetalle
+    : (codigoError && typeof textos?.errores?.[codigoError] === "string" && textos.errores[codigoError]) ||
       (typeof tEstados.error === "object" && tEstados.error?.texto) ||
-      textoError;
+      tituloError;
   const textoReintentar = obtenerTextoSeguro(
     tEstados.error?.botones?.reintentar || tEstados.reintentar,
     en ? "Retry" : "Reintentar",
   );
   const textoVacio = obtenerTextoSeguro(
-    tAlbum.vacio || tEstados.vacio,
+    tAlbum.vacio || tEstados.vacio?.titulo || tEstados.vacio,
     en ? "No cards match that filter" : "No hay cromos con ese filtro",
   );
   const textoLimpiarFiltros = obtenerTextoSeguro(
@@ -533,7 +544,11 @@ export default function CatalogoMundo({
                 aria-busy="true"
                 role="status"
               >
-                <span className="solo-lectores">{textoCargando}</span>
+                <div className="catalogo-cargando-aviso" style={{ gridColumn: "1 / -1", textAlign: "center", padding: "12px 0 16px" }}>
+                  <h2 style={{ font: "700 18px var(--fuente-titulos)", color: "var(--tinta)", margin: 0 }}>
+                    {textoCargando}
+                  </h2>
+                </div>
                 {Array.from({ length: 10 }).map((_, i) => (
                   <div key={i} className="cromo-esqueleto" aria-hidden="true">
                     <div className="esqueleto-imagen" />
@@ -544,7 +559,8 @@ export default function CatalogoMundo({
               </div>
             ) : hayError ? (
               <div className="catalogo-estado-mensaje error" role="alert">
-                <p>{detalleError}</p>
+                <h2>{tituloError}</h2>
+                {detalleError && detalleError !== tituloError && <p>{detalleError}</p>}
                 <button
                   type="button"
                   className="boton-home primario"
