@@ -4,6 +4,7 @@ import TarjetaCromo from "../components/TarjetaCromo/TarjetaCromo.jsx";
 import IconoMundo from "../components/IconoMundo/IconoMundo.jsx";
 import IlustracionCromo from "../components/IlustracionCromo/IlustracionCromo.jsx";
 import DialogoDetalle from "../components/DialogoDetalle/DialogoDetalle.jsx";
+import DetalleCromo from "../components/DetalleCromo/DetalleCromo.jsx";
 import Flecha from "../components/Flecha/Flecha.jsx";
 import { usePreferencias } from "../context/PreferenciasContext.jsx";
 import { useTextos } from "../context/TextosContext.jsx";
@@ -12,7 +13,15 @@ import { useDetalle } from "../hooks/useDetalle.js";
 import { obtenerTextoSeguro } from "../utils/textos.js";
 import "./CatalogoMundo.css";
 
-export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
+export default function CatalogoMundo({
+  mundoId,
+  onVolver,
+  onNavegarMundo,
+  cromoId = null,
+  onAbrirCromo,
+  onCambiarCromo,
+  onCerrarCromo,
+}) {
   const { idioma } = usePreferencias();
   const en = idioma === "en";
   const { textos } = useTextos();
@@ -36,6 +45,7 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
 
   // Re-sincronizar filtros al cambiar mundoId y limpiar filtros al cambiar de mundo
   useEffect(() => {
+    if (!window.location.pathname.startsWith("/mundos/")) return;
     const filtrosActuales = leerFiltrosDeUrl();
     setFiltroRareza(filtrosActuales.rareza);
     setFiltroTipo(filtrosActuales.tipo);
@@ -44,6 +54,8 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
   // Sincronizar filtros con popstate (botones atrás y adelante del navegador)
   useEffect(() => {
     function alCambiarHistorial() {
+      // Al abrir un cromo la URL pasa a /cromos/:id: los filtros se conservan
+      if (!window.location.pathname.startsWith("/mundos/")) return;
       const filtrosUrl = leerFiltrosDeUrl();
       setFiltroRareza(filtrosUrl.rareza);
       setFiltroTipo(filtrosUrl.tipo);
@@ -163,6 +175,11 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
   }, [tieneFiltros, resCromosFiltrados, mundo, orden]);
 
   function abrirDetalleCromo(cromo) {
+    // Sprint 2: detalle real con GET /cromos/:id y URL propia (/cromos/:id)
+    if (onAbrirCromo) {
+      onAbrirCromo(cromo);
+      return;
+    }
     const mundoAdaptado = {
       nombre: mundo?.nombre || "",
       color: cromo.ilustracion?.colorBase || mundo?.color || "#7b48ff",
@@ -221,9 +238,17 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
         tEstados.error,
         en ? "An error occurred." : "Ha ocurrido un error.",
       );
+  const textoCargando = obtenerTextoSeguro(
+    tEstados.cargando,
+    en ? "Loading…" : "Cargando…",
+  );
+  // US-CRO-S2-02: el mensaje del error sale de textos.errores[codigo]
+  // (por ejemplo falla_simulada con X-Simular-Error: 503)
+  const codigoError = errorMundo?.codigo || (tieneFiltros ? errorCromos?.codigo : null);
   const detalleError = esSinConexion
     ? textoSinConexion
-    : (typeof tEstados.error === "object" && tEstados.error?.texto) ||
+    : (typeof textos?.errores?.[codigoError] === "string" && textos.errores[codigoError]) ||
+      (typeof tEstados.error === "object" && tEstados.error?.texto) ||
       textoError;
   const textoReintentar = obtenerTextoSeguro(
     tEstados.error?.botones?.reintentar || tEstados.reintentar,
@@ -508,6 +533,7 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
                 aria-busy="true"
                 role="status"
               >
+                <span className="solo-lectores">{textoCargando}</span>
                 {Array.from({ length: 10 }).map((_, i) => (
                   <div key={i} className="cromo-esqueleto" aria-hidden="true">
                     <div className="esqueleto-imagen" />
@@ -563,6 +589,14 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
         </div>
 
         <DialogoDetalle detalle={detalle} onCerrar={() => setDetalle(null)} />
+        <DetalleCromo
+          cromoId={cromoId}
+          cromosMundo={mundo?.cromos || []}
+          rarezas={rarezasApi}
+          en={en}
+          onCambiar={onCambiarCromo}
+          onCerrar={onCerrarCromo}
+        />
       </div>
     </LayoutPublico>
   );

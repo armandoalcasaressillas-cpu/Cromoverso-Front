@@ -9,7 +9,7 @@ import { useRecurso } from "../hooks/useRecurso.js";
 import { useDetalle } from "../hooks/useDetalle.js";
 import { obtenerTextoSeguro } from "../utils/textos.js";
 
-export default function Home({ onVerMundo }) {
+export default function Home({ onVerMundo, onAbrirCromo }) {
   const { idioma } = usePreferencias();
   const en = idioma === "en";
   const { textos } = useTextos();
@@ -55,6 +55,11 @@ export default function Home({ onVerMundo }) {
   }
 
   function abrirCromo(cromo) {
+    // Sprint 2: el cromo del hero abre su detalle real (/cromos/:id)
+    if (onAbrirCromo && cromo?.id) {
+      onAbrirCromo(cromo);
+      return;
+    }
     const mundoDelCromo =
       (typeof cromo.mundo === "object" && cromo.mundo !== null)
         ? cromo.mundo
