@@ -1,10 +1,19 @@
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Marca from "../Marca/Marca.jsx";
 import MenuMovil from "../MenuMovil/MenuMovil.jsx";
 import SelectorIdioma from "../SelectorIdioma/SelectorIdioma.jsx";
 import { useTextos } from "../../context/TextosContext.jsx";
 import { useSesion } from "../../context/SesionContext.jsx";
 import "./Navbar.css";
+
+function iniciales(nombre = "") {
+  return nombre
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((parte) => parte.charAt(0).toUpperCase())
+    .join("");
+}
 
 export default function Navbar({
   nombre,
@@ -18,8 +27,12 @@ export default function Navbar({
   botonAccesibilidadRef,
 }) {
   const [abierto, setAbierto] = useState(false);
+  const [menuCuenta, setMenuCuenta] = useState(false);
   const boton = useRef(null);
+  const botonCuenta = useRef(null);
+  const contenedorCuenta = useRef(null);
   const id = useId();
+  const idMenuCuenta = useId();
   const { textos } = useTextos();
   const { usuario, cerrarSesion } = useSesion();
 
@@ -29,9 +42,29 @@ export default function Navbar({
   const t = { ...textos, ...tNavbar };
 
   const textoCerrarSesion =
-    tNavbar.cerrarSesion ||
-    t.cerrarSesion ||
+    (typeof tNavbar.usuario?.cerrarSesion === "string" && tNavbar.usuario.cerrarSesion) ||
+    (typeof tNavbar.cerrarSesion === "string" && tNavbar.cerrarSesion) ||
     (idioma === "en" ? "Log out" : "Cerrar sesión");
+  const textoMenuCuenta =
+    (typeof tNavbar.usuario?.menu === "string" && tNavbar.usuario.menu) ||
+    (idioma === "en" ? "Your account menu" : "Menú de tu cuenta");
+
+  // Cerrar el menú de la cuenta al hacer clic fuera
+  useEffect(() => {
+    if (!menuCuenta) return;
+    function alHacerClic(evento) {
+      if (!contenedorCuenta.current?.contains(evento.target)) setMenuCuenta(false);
+    }
+    document.addEventListener("pointerdown", alHacerClic);
+    return () => document.removeEventListener("pointerdown", alHacerClic);
+  }, [menuCuenta]);
+
+  async function salir() {
+    setMenuCuenta(false);
+    setAbierto(false);
+    await cerrarSesion();
+    boton.current?.focus();
+  }
 
   const textosMenu = {
     abrirMenu: tMenuMovil.abrirMenu || t.abrirMenu,
@@ -48,7 +81,10 @@ export default function Navbar({
     <header
       className="cabecera-home"
       onKeyDown={(evento) => {
-        if (evento.key === "Escape" && abierto) {
+        if (evento.key === "Escape" && menuCuenta) {
+          setMenuCuenta(false);
+          botonCuenta.current?.focus();
+        } else if (evento.key === "Escape" && abierto) {
           setAbierto(false);
           boton.current?.focus();
         }
@@ -57,16 +93,7 @@ export default function Navbar({
       <div className="ancho-home fila-cabecera">
         <Marca nombre={nombre} tipo={tipo} />
 
-        {usuario ? (
-          <button
-            type="button"
-            className="ingreso-movil"
-            onClick={cerrarSesion}
-            title={usuario.nombre}
-          >
-            {textoCerrarSesion}
-          </button>
-        ) : (
+        {usuario ? null : (
           <button
             type="button"
             className="ingreso-movil"
@@ -132,21 +159,67 @@ export default function Navbar({
             />
 
             {usuario ? (
-              <div className="bloque-sesion-nav">
-                <span className="usuario-sesion-nombre" title={usuario.correo}>
-                  {usuario.nombre}
-                </span>
-                <button
-                  type="button"
-                  className="boton-home secundario boton-cerrar-sesion"
-                  onClick={() => {
-                    setAbierto(false);
-                    cerrarSesion();
-                  }}
-                >
-                  {textoCerrarSesion}
-                </button>
-              </div>
+              <>
+                {/* Escritorio: avatar con menú desplegable */}
+                <div className="cuenta-nav" ref={contenedorCuenta}>
+                  <button
+                    type="button"
+                    ref={botonCuenta}
+                    className="cuenta-boton"
+                    aria-label={`${textoMenuCuenta}: ${usuario.nombre}`}
+                    aria-haspopup="true"
+                    aria-expanded={menuCuenta}
+                    aria-controls={idMenuCuenta}
+                    onClick={() => setMenuCuenta((v) => !v)}
+                  >
+                    <span className="avatar-nav" aria-hidden="true">
+                      {iniciales(usuario.nombre)}
+                    </span>
+                    <span className="cuenta-nombre" aria-hidden="true">
+                      {usuario.nombre.split(" ")[0]}
+                    </span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  {menuCuenta && (
+                    <div className="menu-cuenta" id={idMenuCuenta}>
+                      <div className="menu-cuenta-usuario">
+                        <span className="avatar-nav pequeno" aria-hidden="true">
+                          {iniciales(usuario.nombre)}
+                        </span>
+                        <div>
+                          <b>{usuario.nombre}</b>
+                          <small>{usuario.correo}</small>
+                        </div>
+                      </div>
+                      <button type="button" className="menu-cuenta-salir" onClick={salir}>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10" />
+                        </svg>
+                        {textoCerrarSesion}
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Móvil: bloque de usuario al final del menú */}
+                <div className="sesion-movil">
+                  <span className="avatar-nav pequeno" aria-hidden="true">
+                    {iniciales(usuario.nombre)}
+                  </span>
+                  <div className="sesion-movil-datos">
+                    <b>{usuario.nombre}</b>
+                    <small>@{usuario.alias || usuario.correo}</small>
+                  </div>
+                  <button type="button" className="boton-home secundario sesion-movil-salir" onClick={salir}>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10" />
+                    </svg>
+                    {textoCerrarSesion}
+                  </button>
+                </div>
+              </>
             ) : (
               <>
                 <button

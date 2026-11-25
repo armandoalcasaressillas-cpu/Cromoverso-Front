@@ -30,7 +30,16 @@ npm run preview
 - `src/services/cookies.js`: lectura, guardado y eliminación de cookies.
 - `src/services/api.js`: cliente GET para la API real del proyecto.
 - `src/hooks/useRecurso.js`: consulta cancelable, carga, error y reintento.
-- `src/hooks/useDetalle.js`: datos del diálogo de demostración.
+- `src/hooks/useDetalle.js`: diálogo informativo y acceso a «Ingresar».
+- `src/pages/Ingresar.jsx`: vista 4, inicio de sesión con todos sus estados (Sprint 2).
+- `src/pages/ResolverCromo.jsx`: entrada directa a `/cromos/:id` y página de cromo no encontrado (Sprint 2).
+- `src/components/DetalleCromo/`: vista 3, detalle de un cromo con `GET /cromos/:id` (Sprint 2).
+- `src/context/SesionContext.jsx`: sesión con `GET/POST/DELETE /sesion` y sesión vencida (Sprint 2).
+- `src/utils/navegacion.js`: navegación con `pushState` sin librerías de routing.
+
+## Variables de entorno
+
+Copia `.env.example` a `.env`. Define `VITE_API_URL=https://yanethm-cromoverso-api.fly.dev/api/v1`. En Vercel se configura en Settings → Environment Variables.
 
 ## Componentes incluidos
 

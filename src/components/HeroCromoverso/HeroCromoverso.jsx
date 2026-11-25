@@ -1,6 +1,7 @@
 import IconoMundo from "../IconoMundo/IconoMundo.jsx";
 import AbanicoCromos from "../AbanicoCromos/AbanicoCromos.jsx";
 import { useTextos } from "../../context/TextosContext.jsx";
+import { useSesion } from "../../context/SesionContext.jsx";
 import "./HeroCromoverso.css";
 
 export default function HeroCromoverso({
@@ -12,6 +13,8 @@ export default function HeroCromoverso({
   totalAlbum = 120,
 }) {
   const { textos } = useTextos();
+  // Sprint 2: con sesión iniciada no se invita a crear cuenta
+  const { usuario } = useSesion();
   const tInicio = textos?.paginas?.inicio || {};
 
   const cantidadMundos = Array.isArray(mundos) ? mundos.length : 6;
@@ -50,23 +53,27 @@ export default function HeroCromoverso({
           </h1>
           <p className="descripcion-cromoverso-movil">{descripcion}</p>
           <div className="grupo-botones">
-            <button
-              type="button"
-              className="boton-home primario"
-              onClick={() => abrirCuenta("registro")}
-            >
-              <IconoMundo nombre="estrella" />
-              {textoBotonPrimario}
-            </button>
+            {!usuario && (
+              <button
+                type="button"
+                className="boton-home primario"
+                onClick={() => abrirCuenta("registro")}
+              >
+                <IconoMundo nombre="estrella" />
+                {textoBotonPrimario}
+              </button>
+            )}
             <a href="#mundos" className="boton-home secundario">
               <IconoMundo nombre="orbita" />
               {textoBotonSecundario}
             </a>
           </div>
-          <p>
-            <IconoMundo nombre="destello" />
-            {pieHero}
-          </p>
+          {!usuario && (
+            <p>
+              <IconoMundo nombre="destello" />
+              {pieHero}
+            </p>
+          )}
         </div>
         <AbanicoCromos
           heroes={heroes}
