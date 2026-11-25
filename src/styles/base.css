@@ -192,8 +192,8 @@ select {
   font-weight: 800;
 }
 .cromoverso .boton-home {
-  border: 2px solid #191130;
-  box-shadow: 2px 2px 0 #191130;
+  border: 2px solid var(--borde);
+  box-shadow: 2px 2px 0 var(--borde);
 }
 @media (max-width: 640px) {
   .cromoverso .ancho-home {

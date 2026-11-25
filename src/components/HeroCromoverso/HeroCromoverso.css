@@ -52,8 +52,9 @@
   border-color: #ffd642;
 }
 .texto-cromoverso .secundario {
-  background: #fff;
-  color: #191130;
+  background: var(--superficie);
+  color: var(--tinta);
+  border-color: var(--borde);
 }
 .texto-cromoverso .boton-home {
   min-height: 56px;

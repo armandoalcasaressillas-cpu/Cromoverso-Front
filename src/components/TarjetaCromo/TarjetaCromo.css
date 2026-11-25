@@ -3,11 +3,11 @@
   position: absolute;
   width: 43%;
   padding: 7px;
-  border: 3px solid var(--color-rareza, #191130);
+  border: 3px solid var(--color-rareza, var(--borde));
   border-radius: 18px;
-  background: #fff;
-  color: #191130;
-  box-shadow: 5px 5px 0 #191130;
+  background: var(--superficie);
+  color: var(--tinta);
+  box-shadow: 5px 5px 0 var(--borde);
   text-align: left;
   top: 70px;
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -15,7 +15,7 @@
 .cromo .retrato-heroe {
   width: 100%;
   display: block;
-  border: 2px solid #191130;
+  border: 2px solid var(--borde);
   border-radius: 12px;
 }
 .cromo b {
@@ -33,7 +33,7 @@
   display: block;
   font-size: 11px;
   margin: 0 2px 4px;
-  color: #504765;
+  color: var(--suave);
 }
 .cromo-numero {
   position: absolute;
@@ -44,8 +44,9 @@
   font-size: 13px;
   line-height: 1.1;
   padding: 3px 7px;
-  background: #fff;
-  border: 2px solid #191130;
+  background: var(--superficie);
+  color: var(--tinta);
+  border: 2px solid var(--borde);
   border-radius: 99px;
 }
 .cromo-badge-holografica {
@@ -55,15 +56,15 @@
   transform: translateX(-50%);
   z-index: 2;
   background: #ffd642;
-  color: #191130;
-  border: 2px solid #191130;
+  color: var(--borde);
+  border: 2px solid var(--borde);
   border-radius: 99px;
   padding: 2px 8px;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  box-shadow: 1px 1px 0 #191130;
+  box-shadow: 1px 1px 0 var(--borde);
 }
 .cromo-rareza {
   position: absolute;
@@ -77,8 +78,8 @@
   height: 22px;
   padding: 0;
   color: var(--color-rareza, var(--tinta));
-  background: #fff;
-  border: 2px solid var(--tinta);
+  background: var(--superficie);
+  border: 2px solid var(--borde);
   border-radius: 99px;
 }
 .cromo-rareza svg {

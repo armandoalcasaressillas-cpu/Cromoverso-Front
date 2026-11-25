@@ -2,31 +2,119 @@
 
 .alto-contraste {
   --fondo: #000;
-  --superficie: #111;
+  --superficie: #000;
+  --superficie-suave: #111;
+  --superficie-calida: #111;
+  --superficie-error: #2a0000;
   --tinta: #fff;
-  --suave: #ccc;
-  --acento: #ff0;
+  --suave: #e6e6e6;
+  --acento: #ffeb3b;
   --sobre-acento: #000;
   --borde: #fff;
+  --color-foco: #ffeb3b;
 }
 
+/* En alto contraste garantizamos bordes y sombras de alto contraste en componentes clave */
 .alto-contraste .cromo,
 .alto-contraste .tarjeta-mundo,
 .alto-contraste .catalogo-sidebar-bloque,
-.alto-contraste .catalogo-encabezado,
-.alto-contraste .dialogo-accesibilidad {
-  background: #111 !important;
-  color: #fff !important;
-  border-color: #fff !important;
-  box-shadow: 4px 4px 0 #fff !important;
+.alto-contraste .catalogo-hero-encabezado,
+.alto-contraste .dialogo-accesibilidad,
+.alto-contraste .detalle-cromo,
+.alto-contraste .menu-cuenta {
+  background: var(--superficie) !important;
+  color: var(--tinta) !important;
+  border-color: var(--borde) !important;
+  box-shadow: 4px 4px 0 var(--borde) !important;
 }
 
-.alto-contraste a,
-.alto-contraste b,
-.alto-contraste h1,
-.alto-contraste h2,
-.alto-contraste h3 {
+.alto-contraste .cromo-numero,
+.alto-contraste .cromo-rareza,
+.alto-contraste .detalle-cromo-numero,
+.alto-contraste .detalle-cromo-icono-rareza,
+.alto-contraste .detalle-cromo-chips li,
+.alto-contraste .detalle-cromo-carta figcaption,
+.alto-contraste .detalle-cromo-poder,
+.alto-contraste .detalle-cromo-atributos,
+.alto-contraste .detalle-cromo-atributo .barra,
+.alto-contraste .avatar-nav,
+.alto-contraste .cuenta-boton,
+.alto-contraste .sesion-movil,
+.alto-contraste .ingresar-alerta,
+.alto-contraste .ingresar-campo input {
+  background: var(--superficie) !important;
+  color: var(--tinta) !important;
+  border-color: var(--borde) !important;
+}
+
+.alto-contraste .detalle-cromo-chips .chip-rareza,
+.alto-contraste .chip-rareza svg,
+.alto-contraste .detalle-cromo-icono-rareza {
+  color: var(--tinta) !important;
+}
+
+.alto-contraste .detalle-cromo-poder-etiqueta {
+  color: var(--acento) !important;
+}
+
+.alto-contraste .detalle-cromo-poder-icono {
+  background: var(--acento) !important;
+  color: var(--sobre-acento) !important;
+}
+
+.alto-contraste .detalle-cromo-atributo .barra span {
+  background: var(--acento) !important;
+}
+
+.alto-contraste .hero-cromoverso {
+  background: #000 !important;
   color: #fff !important;
+  border-bottom: 2px solid var(--borde) !important;
+}
+
+.alto-contraste .hero-cromoverso::before {
+  display: none !important;
+}
+
+.alto-contraste .texto-cromoverso .primario {
+  background: var(--acento) !important;
+  color: var(--sobre-acento) !important;
+  border-color: var(--acento) !important;
+}
+
+.alto-contraste .texto-cromoverso .secundario {
+  background: var(--superficie) !important;
+  color: var(--tinta) !important;
+  border-color: var(--borde) !important;
+}
+
+.alto-contraste .cromoverso .cabecera-home {
+  background: var(--superficie) !important;
+  color: var(--tinta) !important;
+  border-bottom-color: var(--borde) !important;
+}
+
+.alto-contraste .cromoverso .menu-home > a,
+.alto-contraste .cromoverso .ingresar-home,
+.alto-contraste .cromoverso .ingreso-movil {
+  color: var(--tinta) !important;
+  border-color: var(--borde) !important;
+}
+
+.alto-contraste .ingresar-presentacion {
+  background: var(--superficie) !important;
+  color: var(--tinta) !important;
+  border-right: 2px solid var(--borde) !important;
+}
+
+.alto-contraste .ingresar-presentacion::before {
+  display: none !important;
+}
+
+.alto-contraste .ingresar-etiqueta {
+  background: var(--superficie-suave) !important;
+  color: var(--tinta) !important;
+  border: 1px solid var(--borde) !important;
 }
 
 .sin-movimiento *,
@@ -46,4 +134,3 @@
   letter-spacing: 0.05em;
   word-spacing: 0.1em;
 }
-
