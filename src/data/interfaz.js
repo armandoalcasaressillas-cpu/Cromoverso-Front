@@ -8,7 +8,6 @@ export const interfaz = {
     cerrarMenu: "Cerrar menú",
     navegacion: "Navegación principal",
     idioma: "Idioma",
-    buscar: "Busca eventos o artistas",
     explora: "Explora",
     cuenta: "Tu cuenta",
     academico: "Proyecto académico",
@@ -42,7 +41,6 @@ export const interfaz = {
       cerrarMenu: "Cerrar menú",
       navegacion: "Navegación principal",
       idioma: "Idioma",
-      buscar: "Busca eventos o artistas",
       accesibilidad: "Accesibilidad",
     },
     menuMovil: {
@@ -160,7 +158,6 @@ export const interfaz = {
     cerrarMenu: "Close menu",
     navegacion: "Main navigation",
     idioma: "Language",
-    buscar: "Search events or artists",
     explora: "Explore",
     cuenta: "Your account",
     academico: "Academic project",
@@ -194,7 +191,6 @@ export const interfaz = {
       cerrarMenu: "Close menu",
       navegacion: "Main navigation",
       idioma: "Language",
-      buscar: "Search events or artists",
       accesibilidad: "Accessibility",
     },
     menuMovil: {

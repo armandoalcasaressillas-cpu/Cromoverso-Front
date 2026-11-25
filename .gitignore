@@ -1,6 +1,5 @@
 node_modules/
 dist/
-.env.local
-.vercel.json
-.viteconfig.js
+.env
+*.local
 .DS_Store

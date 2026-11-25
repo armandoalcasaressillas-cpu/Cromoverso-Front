@@ -84,17 +84,30 @@ export default function Home({ onVerMundo }) {
     recargarPrimerMundo();
   }
 
-  const tEstados = textos?.estados || {};
+  const tEstados = textos?.errores || textos?.estados || {};
+  const esSinConexion =
+    errorMundos?.codigo === "sin_conexion" ||
+    errorPrimerMundo?.codigo === "sin_conexion";
+
+  const textoSinConexion = obtenerTextoSeguro(
+    textos?.errores?.sin_conexion || tEstados?.sin_conexion,
+    en
+      ? "No connection. Check your network and try again."
+      : "No hay conexión. Revisa tu red e inténtalo de nuevo.",
+  );
+
   const textoCargando = obtenerTextoSeguro(
     tEstados.cargando,
     en ? "Loading..." : "Cargando...",
   );
-  const textoError = obtenerTextoSeguro(
-    tEstados.error,
-    en
-      ? "Unable to load data. Please check your connection."
-      : "No se pudieron cargar los datos. Revisa tu conexión.",
-  );
+  const textoError = esSinConexion
+    ? textoSinConexion
+    : obtenerTextoSeguro(
+        tEstados.error,
+        en
+          ? "Unable to load data. Please check your connection."
+          : "No se pudieron cargar los datos. Revisa tu conexión.",
+      );
   const textoReintentar = obtenerTextoSeguro(
     tEstados.error?.botones?.reintentar || tEstados.reintentar,
     en ? "Retry" : "Reintentar",
