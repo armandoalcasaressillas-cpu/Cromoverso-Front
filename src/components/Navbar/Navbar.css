@@ -216,3 +216,143 @@
     min-height: 60px;
   }
 }
+
+/* ===== Sprint 2 · Sesión iniciada: avatar + menú de la cuenta ===== */
+.cuenta-nav {
+  position: relative;
+}
+.avatar-nav {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border: 2px solid #191130;
+  border-radius: 50%;
+  background: #ffd642;
+  color: #191130;
+  font: 800 13px var(--fuente-titulos), sans-serif;
+  cursor: pointer;
+}
+.avatar-nav.pequeno {
+  width: 32px;
+  height: 32px;
+  font-size: 11px;
+  cursor: default;
+}
+.cuenta-boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 2px 10px 2px 2px;
+  border: 2px solid transparent;
+  border-radius: 99px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.cuenta-boton:hover,
+.cuenta-boton[aria-expanded="true"] {
+  border-color: #191130;
+  background: #fff;
+  color: #191130;
+}
+.cuenta-boton .avatar-nav {
+  cursor: pointer;
+}
+.menu-cuenta {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 50;
+  min-width: 240px;
+  padding: 12px;
+  border: 2px solid #191130;
+  border-radius: 14px;
+  background: #fff;
+  color: #191130;
+  box-shadow: 4px 4px 0 #191130;
+}
+.menu-cuenta-usuario {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6dff5;
+}
+.menu-cuenta-usuario b {
+  display: block;
+  font-size: 14px;
+}
+.menu-cuenta-usuario small {
+  display: block;
+  font-size: 12px;
+  color: var(--suave);
+  word-break: break-all;
+}
+.menu-cuenta-salir {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: #191130;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+.menu-cuenta-salir:hover {
+  background: #f1ebff;
+}
+.sesion-movil {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .cuenta-nav {
+    display: none;
+  }
+  .sesion-movil {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff;
+    color: #191130;
+  }
+  .sesion-movil-datos {
+    flex: 1;
+    min-width: 0;
+  }
+  .sesion-movil-datos b {
+    display: block;
+    font-size: 14px;
+  }
+  .sesion-movil-datos small {
+    display: block;
+    font-size: 12px;
+    color: var(--suave);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sesion-movil-salir {
+    min-height: 40px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
