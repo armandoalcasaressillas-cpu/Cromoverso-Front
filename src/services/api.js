@@ -6,19 +6,32 @@ export async function consultar(
 ) {
   const tieneCuerpo = body !== undefined && body !== null;
 
-  const respuesta = await fetch(`${proyecto.api}${ruta}`, {
-    method,
-    signal,
-    credentials,
-    headers: {
-      Accept: "application/json",
-      ...(tieneCuerpo ? { "Content-Type": "application/json" } : {}),
-      ...headers,
-    },
-    ...(tieneCuerpo
-      ? { body: typeof body === "string" ? body : JSON.stringify(body) }
-      : {}),
-  });
+  let respuesta;
+  try {
+    respuesta = await fetch(`${proyecto.api}${ruta}`, {
+      method,
+      signal,
+      credentials,
+      headers: {
+        Accept: "application/json",
+        ...(tieneCuerpo ? { "Content-Type": "application/json" } : {}),
+        ...headers,
+      },
+      ...(tieneCuerpo
+        ? { body: typeof body === "string" ? body : JSON.stringify(body) }
+        : {}),
+    });
+  } catch (errorRed) {
+    if (errorRed.name === "AbortError") {
+      throw errorRed;
+    }
+    if (errorRed instanceof TypeError) {
+      const errorSinConexion = new Error("No hay conexión de red");
+      errorSinConexion.codigo = "sin_conexion";
+      throw errorSinConexion;
+    }
+    throw errorRed;
+  }
 
   // Algunas respuestas (por ejemplo, un DELETE correcto) pueden venir sin cuerpo.
   const texto = await respuesta.text();

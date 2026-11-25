@@ -100,15 +100,6 @@ export default function Navbar({
             {etiqueta}
           </a>
           <div className="acciones-home">
-            {tipo === "taquilla" && (
-              <a
-                className="buscar-cabecera"
-                href="#buscador-eventos"
-                onClick={() => setAbierto(false)}
-              >
-                {t.buscar}
-              </a>
-            )}
 
             {onAbrirAccesibilidad && (
               <button

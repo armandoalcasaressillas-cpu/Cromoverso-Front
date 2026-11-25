@@ -18,18 +18,39 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
   const { textos } = useTextos();
   const { detalle, setDetalle, abrirCuenta } = useDetalle(idioma);
 
-  // Filtros iniciales leídos de la URL
-  const [filtroRareza, setFiltroRareza] = useState(() => {
+  // Lectura de filtros de la URL
+  function leerFiltrosDeUrl() {
     const params = new URLSearchParams(window.location.search);
-    return params.get("rareza") || "";
-  });
-  const [filtroTipo, setFiltroTipo] = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("tipo") || "";
-  });
+    return {
+      rareza: params.get("rareza") || "",
+      tipo: params.get("tipo") || "",
+    };
+  }
+
+  // Filtros sincronizados con la URL
+  const [filtroRareza, setFiltroRareza] = useState(() => leerFiltrosDeUrl().rareza);
+  const [filtroTipo, setFiltroTipo] = useState(() => leerFiltrosDeUrl().tipo);
 
   // Selector de orden: 'numero' o 'nombre'
   const [orden, setOrden] = useState("numero");
+
+  // Re-sincronizar filtros al cambiar mundoId y limpiar filtros al cambiar de mundo
+  useEffect(() => {
+    const filtrosActuales = leerFiltrosDeUrl();
+    setFiltroRareza(filtrosActuales.rareza);
+    setFiltroTipo(filtrosActuales.tipo);
+  }, [mundoId]);
+
+  // Sincronizar filtros con popstate (botones atrás y adelante del navegador)
+  useEffect(() => {
+    function alCambiarHistorial() {
+      const filtrosUrl = leerFiltrosDeUrl();
+      setFiltroRareza(filtrosUrl.rareza);
+      setFiltroTipo(filtrosUrl.tipo);
+    }
+    window.addEventListener("popstate", alCambiarHistorial);
+    return () => window.removeEventListener("popstate", alCambiarHistorial);
+  }, []);
 
   // GET /mundos para la lista del sidebar
   const { datos: resMundos } = useRecurso("/mundos");
@@ -183,13 +204,27 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
     tEstados.noEncontrado?.botones?.irAlInicio || tEstados.volverInicio,
     en ? "Back to home" : "Volver al inicio",
   );
-  const textoError = obtenerTextoSeguro(
-    tEstados.error,
-    en ? "An error occurred." : "Ha ocurrido un error.",
+  const esSinConexion =
+    errorMundo?.codigo === "sin_conexion" ||
+    (tieneFiltros && errorCromos?.codigo === "sin_conexion");
+
+  const textoSinConexion = obtenerTextoSeguro(
+    textos?.errores?.sin_conexion || tEstados?.sin_conexion,
+    en
+      ? "No connection. Check your network and try again."
+      : "No hay conexión. Revisa tu red e inténtalo de nuevo.",
   );
-  const detalleError =
-    (typeof tEstados.error === "object" && tEstados.error?.texto) ||
-    textoError;
+
+  const textoError = esSinConexion
+    ? textoSinConexion
+    : obtenerTextoSeguro(
+        tEstados.error,
+        en ? "An error occurred." : "Ha ocurrido un error.",
+      );
+  const detalleError = esSinConexion
+    ? textoSinConexion
+    : (typeof tEstados.error === "object" && tEstados.error?.texto) ||
+      textoError;
   const textoReintentar = obtenerTextoSeguro(
     tEstados.error?.botones?.reintentar || tEstados.reintentar,
     en ? "Retry" : "Reintentar",
@@ -268,13 +303,75 @@ export default function CatalogoMundo({ mundoId, onVolver, onNavegarMundo }) {
 
         {/* Encabezado morado/acento */}
         <header className="catalogo-hero-encabezado">
-          <h1>{mundo?.nombre || "Cromoverso"}</h1>
-          <p>
-            {en
-              ? `World ${numeroMundo} of 6 · cards ${desde} to ${hasta}.`
-              : `Mundo ${numeroMundo} de 6 · cromos ${desde} a ${hasta}.`}
-          </p>
+          <button
+            type="button"
+            className="catalogo-boton-volver-movil"
+            onClick={onVolver}
+            aria-label={en ? "Back to home" : "Volver al inicio"}
+          >
+            <svg
+              className="icono-flecha-volver"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M19 12H5m7 7-7-7 7-7" />
+            </svg>
+          </button>
+          <div className="catalogo-hero-titulos">
+            <h1>{mundo?.nombre || "Cromoverso"}</h1>
+            <p>
+              {en
+                ? `World ${numeroMundo} of 6 · cards ${desde} to ${hasta}.`
+                : `Mundo ${numeroMundo} de 6 · cromos ${desde} a ${hasta}.`}
+            </p>
+          </div>
         </header>
+
+        {/* Desplegables tipo chip para móvil (<= 640px) */}
+        <div className="catalogo-filtros-movil" aria-label={en ? "Mobile filters" : "Filtros móviles"}>
+          <div className="filtro-chip-movil">
+            <label htmlFor="filtro-movil-rareza" className="sr-only">
+              {en ? "Rarity" : "Rareza"}
+            </label>
+            <select
+              id="filtro-movil-rareza"
+              className="select-chip-movil"
+              value={filtroRareza}
+              onChange={(e) => actualizarFiltros(e.target.value, filtroTipo)}
+            >
+              <option value="">{en ? "Rarity: all" : "Rareza: todas"}</option>
+              {rarezasOrdenadas.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filtro-chip-movil">
+            <label htmlFor="filtro-movil-tipo" className="sr-only">
+              {en ? "Type" : "Tipo"}
+            </label>
+            <select
+              id="filtro-movil-tipo"
+              className="select-chip-movil"
+              value={filtroTipo}
+              onChange={(e) => actualizarFiltros(filtroRareza, e.target.value)}
+            >
+              <option value="">{en ? "Type: all" : "Tipo: todos"}</option>
+              <option value="heroe">{en ? "Hero" : "Héroe"}</option>
+              <option value="aliado">{en ? "Ally" : "Aliado"}</option>
+              <option value="villano">{en ? "Villain" : "Villano"}</option>
+            </select>
+          </div>
+        </div>
 
         {/* Layout de dos columnas: Sidebar + Grid */}
         <div className="catalogo-dos-columnas">
